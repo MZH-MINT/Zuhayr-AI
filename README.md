@@ -1,122 +1,217 @@
-# Zuhayr AI - Modern AI Chatbot
+# Zuhayr AI 🤖
 
-A beautiful, modern AI chatbot web application built with Next.js 16, React 19, TypeScript, and Tailwind CSS 4.
+A modern AI chatbot web app powered by:
 
-## ✨ Features
+* Next.js
+* Tailwind CSS
+* llama.cpp
+* Mistral 7B
+* Cloudflare Tunnel
+* RTX 4050 Local Inference
 
-### Design
-- 🌙 **Dark futuristic UI** inspired by ChatGPT and Perplexity
-- 💎 **Glassmorphism design** with backdrop blur effects
-- 🎨 **Animated gradient background** for visual appeal
-- 📱 **Fully responsive** - works perfectly on mobile, tablet, and desktop
-- ✨ **Smooth animations** and transitions throughout
-- 🎯 **Clean, modern interface** with rounded corners and elegant shadows
+---
 
-### Functionality
-- 💬 **Real-time chat** with AI assistant
-- ⌨️ **Smart input handling**:
-  - `Enter` to send messages
-  - `Shift+Enter` for new lines
-  - Auto-resizing textarea
-- 📝 **Markdown rendering** for AI responses
-- 💻 **Syntax highlighting** for code blocks
-- 📋 **Copy message** functionality
-- ⏰ **Message timestamps**
-- 🔄 **Typing indicators** while AI responds
-- 🚫 **Input disabled** during API requests
-- 📜 **Auto-scroll** to latest messages
-- 🆕 **New chat** functionality
+## Features
 
-### UI Components
-- **Sidebar** with logo, app title, and new chat button
-- **Message bubbles** for user and AI with distinct styling
-- **Chat input** with send button icon
-- **Loading animations** and spinners
-- **Welcome screen** with example prompts
-- **Status indicators**
+* ✨ Modern responsive chatbot UI
+* 🖥️ Local AI inference using llama.cpp
+* ⚡ GPU acceleration with CUDA
+* 🌐 Public AI API using Cloudflare Tunnel
+* 🔌 OpenAI-compatible backend API
+* 🚀 Fast local responses
+* 💰 Free hosting frontend with Vercel
+* 🔒 Privacy-focused self-hosted AI
 
-## 🛠️ Tech Stack
+---
 
-- **Framework**: Next.js 16 (App Router)
-- **UI Library**: React 19
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS 4
-- **Markdown**: react-markdown with remark-gfm
-- **Code Highlighting**: react-syntax-highlighter
+## Tech Stack
 
-## 🚀 Getting Started
+**Frontend:**
 
-### Prerequisites
-- Node.js 20+ installed
-- npm or yarn package manager
+* Next.js 16
+* React 19
+* Tailwind CSS 4
+* TypeScript
+* React Markdown
 
-### Installation
+**Backend:**
 
-1. Install dependencies:
+* llama.cpp
+* Mistral 7B GGUF
+* CUDA
+* Cloudflare Tunnel
+
+---
+
+## Requirements
+
+* Windows 11
+* NVIDIA GPU (RTX recommended)
+* CUDA Toolkit installed
+* Node.js 20+
+* Git
+* llama.cpp compiled with CUDA
+
+---
+
+## Setup Instructions
+
+### 1. Clone Repository
+
+```bash
+git clone https://github.com/MZH-MINT/Zuhayr-AI.git
+cd Zuhayr-AI
+```
+
+---
+
+### 2. Install Frontend Dependencies
+
 ```bash
 npm install
 ```
 
-2. Run the development server:
+---
+
+### 3. Start Frontend
+
 ```bash
 npm run dev
 ```
 
-3. Open [http://localhost:3000](http://localhost:3000) in your browser
+Frontend runs on:
 
-### Build for Production
+```text
+http://localhost:3000
+```
+
+---
+
+## AI Backend Setup
+
+### 1. Build llama.cpp with CUDA
 
 ```bash
-npm run build
-npm start
+cmake -B build -DGGML_CUDA=ON
+cmake --build build --config Release
 ```
 
-## 🎨 Design Features
+---
 
-### Color Scheme
-- Dark background with animated gradient
-- Blue-purple gradient accents
-- Glassmorphism effects with transparency
-- Subtle borders and shadows
+### 2. Download Model
 
-### Animations
-- Fade-in animations for messages
-- Typing indicator with pulsing dots
-- Smooth transitions on hover states
-- Gradient animation on background
-- Auto-resizing textarea
+Recommended model:
 
-### Responsive Design
-- Mobile-first approach
-- Collapsible sidebar on mobile
-- Optimized layouts for all screen sizes
-- Touch-friendly interface
-
-## 🔌 API Integration
-
-The app connects to an AI API endpoint:
-```
-https://introductory-arnold-south-pam.trycloudflare.com/v1/chat/completions
+```text
+Mistral-7B-Instruct-v0.3-Q4_K_M.gguf
 ```
 
-### Request Format
+Place model inside:
+
+```text
+D:\Model AI\
+```
+
+---
+
+### 3. Start llama.cpp Server
+
+```powershell
+.\build\bin\Release\llama-server.exe -m "D:\Model AI\Mistral-7B-Instruct-v0.3-Q4_K_M.gguf" -ngl 999 --host 0.0.0.0
+```
+
+Server runs on:
+
+```text
+http://localhost:8080
+```
+
+---
+
+## Public Access with Cloudflare Tunnel
+
+### 1. Download cloudflared
+
+https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/
+
+---
+
+### 2. Start Tunnel
+
+```powershell
+.\cloudflared.exe tunnel --url http://localhost:8080
+```
+
+Example public URL:
+
+```text
+https://your-url.trycloudflare.com
+```
+
+---
+
+## API Endpoint
+
+```text
+POST /v1/chat/completions
+```
+
+Example request:
+
 ```json
 {
   "messages": [
     {
       "role": "user",
-      "content": "Your message here"
+      "content": "Hello"
     }
   ]
 }
 ```
 
-### Response Parsing
-```javascript
-const aiContent = data.choices[0].message.content;
+---
+
+## Vercel Deployment
+
+### Install Vercel CLI
+
+```bash
+npm install -g vercel
 ```
 
-## 📁 Project Structure
+---
+
+### Deploy
+
+```bash
+vercel
+```
+
+---
+
+## Important Notes
+
+* Keep llama-server running
+* Keep cloudflared running
+* Laptop must remain powered on for inference
+* RTX 4050 performs AI inference locally
+
+---
+
+## Future Improvements
+
+* Chat history
+* Authentication
+* Persistent conversations
+* Streaming responses
+* Voice AI
+* Custom domains
+* User accounts
+* Mobile app
+
+---
+
+## Project Structure
 
 ```
 ai-chat-ui/
@@ -133,53 +228,12 @@ ai-chat-ui/
 └── README.md
 ```
 
-## 🎯 Key Components
+---
 
-### Sidebar
-- App logo with gradient
-- "Zuhayr AI" branding
-- New chat button
-- Chat history placeholder
-- Responsive mobile menu
+## License
 
-### MessageBubble
-- User and AI message differentiation
-- Markdown rendering support
-- Code block syntax highlighting
-- Copy message functionality
-- Timestamp display
-
-### ChatInput
-- Auto-resizing textarea
-- Keyboard shortcuts
-- Disabled state during loading
-- Character count
-- Send button with icons
-
-### TypingIndicator
-- Animated dots
-- Glassmorphism styling
-- AI avatar
-
-## 🌟 Production Quality
-
-- ✅ Clean, maintainable code
-- ✅ TypeScript for type safety
-- ✅ Reusable component structure
-- ✅ Proper state management
-- ✅ Error handling
-- ✅ Responsive design
-- ✅ Accessibility considerations
-- ✅ Performance optimized
-
-## 📝 License
-
-This project is open source and available for personal and commercial use.
-
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome!
+MIT License
 
 ---
 
-Built with ❤️ using Next.js and modern web technologies
+**Built with ❤️ using Next.js and modern web technologies**
